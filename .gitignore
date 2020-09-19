@@ -1,0 +1,12 @@
+dist/
+.temp/
+.rn_temp/
+.tea/
+node_modules/
+.DS_Store
+*-error.log
+debug.log
+.prettierrc
+.vscode
+.vscode/settings.json
+.kaitian/settings.json
