@@ -17,7 +17,7 @@ function lazyImg() {
       }
     }
   }
-  window.addEventListener('scroll', lazyImg)
+  window.addEventListener('scroll', _lazy)
 }
 
 /**
