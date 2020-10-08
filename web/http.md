@@ -13,3 +13,26 @@
 5. 流量控制：基于流的流量控制，具体不详- -
 6. 服务端推送等
 7. 问题：基于 tpc 链接，握手慢 —— http3 QUIC 基于 UDP，有更好的链接时延表现
+
+### http 跟 websocket 区别 [参考](https://www.geeksforgeeks.org/what-is-web-socket-and-how-it-is-different-from-the-http/)
+
+1. 两者都是 client/server 模式下的通信协议
+2. http(s)
+  
+    - 单向的，client 发送请求， server 响应，一一对应
+    - 响应发送完毕，连接关闭，所以是无状态协议（keep-alive 不改变根本）
+    - 基于 TCP 三次握手建立连接以及丢包重传等机制
+    - 消息都是使用 ASCII 编码（就是文本），包含 http 协议版本、http 方法、http 头部和 http 请求体等内容，通常是 700-800 字节范围
+
+3. websocket
+
+    - 全双工有状态协议，连接一旦建立需要主动关闭，且关闭之后双方都不能使用
+    - 多应用在实时、游戏和聊天应用中；如果数据请求不频繁，建议使用 http，websocket 链接服务端压力大
+    - 协议 ws:// 或者 wss://
+    - 状态码 101 表示协议升级，响应头 Upgrade 告诉客户端服务端协议已升级
+
+        ```
+        HTTP/1.1 101 Switching Protocols
+        Upgrade: websocket 
+        Connection: Upgrade
+        ```
