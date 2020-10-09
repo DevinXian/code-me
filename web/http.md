@@ -80,3 +80,10 @@
 2. WebSocket 本身没变，只是 HTTP 协议变更导致如何建立 WebSocket 连接变化
 3. 由于 HTTP2 双工的特性，不再需要 HTTP/1.1 下用于建立连接的 `Upgrade Connection` 及 `101 Switching Protocols` 等握手内容
 4. （此条非精确，待细究）HTTP2 采用扩展 CONNECT 请求的方式（必须包含伪头部 :protocol = websocket 等）。基于多路复用特性，不再占用单独 TCP 连接，而是包装为所谓的 Tunneled Stream（暂译：隧道流）进行 WebSocket 通信
+
+### TCP 端口连接多个客户端端连接
+
+1. 服务器 bind -> listen -> accept, 比如 80 端口，建立 original socket（简称 OSK）
+2. 客户端 connect -> 服务器端 accept，OSK 并不处理连接，而是继续监听新的客户端连接请求；OSK 收到请求，会根据四元组（唯一确定 socket，包含 client ip:port server ip:port，有时也叫五元组，添加了协议，如 http）生成新的 socket 来处理连接，`accept()` 返回新的 socket 描述符；可以预见的资源消耗
+3. 如果客户端连接多，服务器来不及处理，会触发 `ECONNREFUSED` 错误
+4. 详细描述见 [GNU](https://www.gnu.org/software/libc/manual/html_node/Accepting-Connections.html)，里面有句话：*The accept function waits if there are no connections pending, unless the socket socket has nonblocking mode set.* 我猜想 Node.js 应该就是使用了 nonblocking mode？（最后一句仅为猜想）
