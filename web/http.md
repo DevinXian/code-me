@@ -14,9 +14,16 @@
 6. 服务端推送等
 7. 问题：基于 tpc 链接，握手慢 —— http3 QUIC 基于 UDP，有更好的链接时延表现
 
+### Socket 是什么
+
+1. Socket 是应用层与 TCP/IP 协议簇通信的中间抽象层，是一组接口（并不是协议）。Socket 作为门面将复杂的协议封装隐藏在接口内部，用户调用对应接口即可实现通信
+2. 工作原理：初始化`socket()`, 绑定端口`bind()`并监听端口`listen()`，然后`accept()`表示准备完毕，阻塞等待客户端连接。客户端`connect()`连接之后，双方通过`write()`和`read()`进行消息收发，客户端收到消息后`close()`关闭连接； read 读取 read buffer 内容；write 读取 write buffer
+3. 请求对象和响应对象都是序列化成字节交给 socket 进行发送，然后到接收端反序列化
+4. 可分为长连接和短链接，长连接安全性差，消耗更多资源；http 等使用短连接
+
 ### http 跟 websocket 区别 [参考](https://www.geeksforgeeks.org/what-is-web-socket-and-how-it-is-different-from-the-http/)
 
-1. 两者都是 client/server 模式下的通信协议
+1. 两者都是 client/server 模式下的通信协议，均基于 TCP 连接
 2. http(s)
   
     - 单向的，client 发送请求， server 响应，一一对应
