@@ -43,3 +43,37 @@
         Upgrade: websocket 
         Connection: Upgrade
         ```
+
+### WebSocket 是如何建立的 [参考](https://developer.mozilla.org/en-US/docs/Web/HTTP/Protocol_upgrade_mechanism#)
+
+1. HTTP/1.1 协议开始提供了一种使用 `Upgrade` 头部将已建立连接进行协议更换的方式；该机制是可选的，也就是实现方明知道可以升级而可以不采取升级方式；HTTP2 不允许这种协议升级方式
+2.  HTTP/1.1 下的协议转换方式：
+
+    1.  客户端发送请求携带对应头部信息，如：
+
+        ```
+        GET /index.html HTTP/1.1
+        Host: www.example.com
+        Connection: upgrade
+        Upgrade: example/1, foo/2
+        ```
+
+        Upgrade 是一种 hop-by-hop 头，所以需要 Connection 也写明，[参考](https://en.wikipedia.org/wiki/Hop-by-hop_transport)；可能还有额外请求头来配置 WebSocket 
+
+    2. 服务器端收到该请求，决定是否升级协议：如果不升级，忽略 `Upgrade` 请求头，返回普通响应（如 200 OK）；否则，响应 `101 Switching Protocols`，有些协议升级还需要额外必要的握手信息；101 响应发送之后，标志着升级完成，该连接会变成一个双向管道，发起 upgrade 的请求会在新协议下完成
+
+    3. 示例代码：
+
+        ```javascript
+        const webSocket = new WebSocket('wss://a.b.com')
+        // WebSocket API 帮你完成建立连接及升级协议过程
+        // 如果手动升级协议，需要发送 Connection 和 Upgrade 头部
+        ```
+
+
+3. 测试网站：[https://www.websocket.org/echo.html](https://www.websocket.org/echo.html)，可以在 network 查看具体请求头响应头，体验发送消息过程
+
+
+### HTTP2 如何建立 WebSocket
+
+1. 
