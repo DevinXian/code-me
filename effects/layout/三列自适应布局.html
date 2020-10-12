@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .left {
+      height: 100px;
+      width: 150px;
+      float: left;
+      background-color: red;
+    }
+    .content { /* 不需要 float */
+      height: 150px;
+      margin-left: 150px; /* 给左边float的left留空间*/
+      margin-right: 250px; /* 给右边float的right留空间*/
+      background-color: blue;
+    }
+    .right {
+      height: 100px;
+      width: 250px;
+      float: left;
+      background-color: pink;
+    }
+
+    .box-outer {
+      float: left;
+      width: 100%;
+      background: #ccc;
+    }
+    .box-inner {
+      float: left;
+      width: 100%;
+      margin-right: -250px; /* 将right拉回同一行 */
+    }
+  </style>
+
+  <!-- 《CSS设计指南》里面提及 -->
+  <!-- 原理：也是利用负边距，将右边拉回同一行 -->
+
+  <body>
+    <div class="box-outer">
+      <div class="box-inner">
+        <div class="left"></div>
+        <div class="content"></div>
+      </div>
+      <div class="right"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<div class="header"></div>
+<div class="content">
+  <div class="middle">
+    <div class="inner-middle"></div>
+  </div>
+  <div class="left"></div>
+  <div class="right"></div>
+</div>
+<div class="footer"></div>
+
+<!-- 原理简单：就是利用负边距把左右两边放到合适位置-->
+<!-- 
+  此例从网上copy过来的 https://juejin.im/post/6844903568718184461 
+  存在问题，即：left 和 right 覆盖了 inner-middle 的显示区，完整的应该考虑加 padding
+ -->
+
+<style>
+.header {
+  width: 100%;
+  height: 30px;
+  background: red;
+}
+
+.content {
+  overflow: hidden;
+}
+
+.footer {
+  width: 100%;
+  height: 30px;
+  background: red;
+}
+
+.middle {			
+  width: 100%;
+  float: left;
+}
+           .inner-middle{
+  width:100%;
+  height: 80px;
+  
+  background: green;			
+}
+.left {
+  width: 100px;
+  float: left;
+  height: 80px;
+  margin-left: -100%;
+  background: yellow;
+}
+
+.right {			
+  width: 100px;
+  float: left;
+  height: 80px;
+  margin-left: -100px;
+  background: pink
+}
+</style>
