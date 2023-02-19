@@ -22,9 +22,9 @@ describe('检查：getTag函数执行', function () {
     it('类型返回： [object Undefined]', function () {
       assert.equal(getTag(undefined), '[object Undefined]');
     });
-    // it('类型返回： [object Object]', function () {
-    //   assert.equal(getTag([]), '[object Object]');
-    // });
+    it('类型返回： [object Object]', function () {
+      assert.equal(getTag([]), '[object Object]');
+    });
   });
 
 });
