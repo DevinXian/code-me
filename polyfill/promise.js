@@ -145,6 +145,14 @@ class Promise {
       promise.doResolve(ret)
     }
     return promise
+
+    /*
+    return new Promise((resolve, reject) => {
+      // 存储此 resolve reject 到callbacks中，等待上层 promise 内部 resolve/reject 推动状态变更; 
+      // 父 promise resolve() 之后状态变更，如果有 onResolved 则 value = onResolved(value)，继续推动当前 resolve 流程
+      // ps: 不用保存 promise (promise 和其 resolve/reject 等价)
+    })
+    */
   }
 }
 
