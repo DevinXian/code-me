@@ -72,6 +72,7 @@ function renderer(options) {
     } else if (isArray(n2.children)) {
       if (isArray(n1.children)) {
         // 核心算法 diff patch
+        // TODO:
       } else {
         // 旧节点，要么文本，要么空节点
         setElementText(container, '')
