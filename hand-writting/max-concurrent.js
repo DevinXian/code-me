@@ -4,33 +4,22 @@
  * @param {number} limit 
  */
 function concurrent(tasks, limit) {
-  const list = []  // 进行中
-  let running = 0;
   const promises = []
   let resolve
 
   const allPromise = new Promise(ok => (resolve = ok))
 
   const addTask = () => {
-    // 到达并发限制 or 没有更多任务
-    if (list.length >= limit || !tasks.length) {
-      return
+    // 没有更多任务
+    if (!tasks.length) {
+      resolve(Promise.all(promises))
+      return;
     }
 
-    running++;
     const item = tasks.shift()();
     promises.push(item)
-    item.then(value => {
-      console.log('--- value: ', value)
-      return value;
-    }).finally(() => {
-      running--;
-      if (running === 0 && tasks.length === 0) {
-        resolve(Promise.all(promises))
-        return;
-      }
-      addTask()
-    });
+    console.log('promises display: ', promises) // 观察到始终最多只有2个在pending状态的Promise实例
+    item.finally(() => addTask());
   }
 
   for (let i = 0; i < limit; i++) {
@@ -41,17 +30,17 @@ function concurrent(tasks, limit) {
 }
 
 /** 以下为测试代码 */
-function task(seq) {
+function task(seq, delay) {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(`task - ${seq}`)
-    }, 1000 + seq * 100)
+      resolve(`task - ${seq} - ${delay}`)
+    }, delay * 100)
   })
 }
 
 const arr = []
 for (let i = 0; i < 10; i++) {
-  arr.push(task.bind(null, i));
+  arr.push(task.bind(null, i, Math.floor(Math.random(100) * 100)));
 }
 
 concurrent(arr, 2).then(console.log, console.error);
