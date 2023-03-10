@@ -43,10 +43,10 @@ export const applyMiddleware = (middlewares) => {
     realDispatch = compose(...chain)(store.dispatch);
 
     /**
-     * 中间件模式 const middle = store => next => next(action)
+     * 中间件模式 const middle = store => next => action => next(action)
      * 第一层调用注入有限的 API 能力
-     * 第二层 next => next(action) 则是 compose 关键，达到了 store.dispatch 层层穿透效果
-     * 比如 compose(f1, f2, f3), f3 是最内层，真正用到了 store.dispatch，而 f2 中的 next 是 f3 函数体，同理，f1 中的 next 是 f2 的函数体，依次类推...
+     * 第二层 next => action => next(action) 则是 compose 关键，达到了 store.dispatch 层层穿透效果
+     * 比如 compose(f1, f2, f3), f3 是最内层，其中的 next 真正用到了 store.dispatch，而 f2 中的 next 是 f3 函数体，同理，f1 中的 next 是 f2 的函数体，依次类推...
      */
 
     return {
