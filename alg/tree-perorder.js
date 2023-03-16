@@ -77,3 +77,21 @@ function nPreorder(root, res = []) {
 
   return res;
 }
+
+function nPreorderShortly(root, res = []) {
+  if (!root) return res;
+
+  let node
+  const stack = [root]
+
+  while (stack.length) {
+    node = stack.pop();
+    res.push(node.val)
+
+    if (node.children?.length) {
+      stack.push(...node.children.reverse())
+    }
+  }
+
+  return res;
+}
