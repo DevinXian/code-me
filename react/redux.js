@@ -20,9 +20,7 @@ const compose = (fns) => {
   }
 
   return fns.reduce((prev, curr) => {
-    return (...arg) => {
-      prev(curr(...arg))
-    }
+    return (...arg) => prev(curr(...arg))
   });
 
 }
