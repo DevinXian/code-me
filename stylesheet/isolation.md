@@ -6,3 +6,5 @@
 4. BEM，基于规范，选择器比较长，容易出问题
 5. ShadowDOM，兼容性有点问题
 6. 预处理器添加统一前缀；典型场景，更改第三方组件库类名前缀等
+
+  - 类似于 postcss-wrap 源码实现一个 plugin，内部使用 `css.walkRules` 来对 `rule.selectors` 进行加前缀
