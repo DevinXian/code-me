@@ -23,3 +23,4 @@
 1. webpack 不能配置 babel 翻译掉 es module 规范模块，且 optimization.usedExports: true，否则无法静态分析
 2. 模块需要配置 sideEffects 表明可以被 tree-shaking 的文件； 或者 PURE 注解
 3. 原理是标记没有使用的 export 内容，最后在 Terser 删除掉被标记的内容
+4. `import('./a.js')` 只会影响 a 模块的 export tree-shaking，不会影响 a 模块引入的其他模块的 tree-shaking，[issue](https://github.com/webpack/webpack.js.org/issues/2684)
