@@ -10,7 +10,12 @@
 ### Major GC(Full Mark-Compact)
 
 1. 作用于整个 heap，main thread 过程： js -> marking -> sweeping -> compacting -> js
-2. marking: 运行期间根据 reachability 来判定是否失活；从 root set 出发，递归寻找执行栈和全局对象中可达到对象，进行标记（white black gray）
+2. marking: 运行期间根据 reachability 来判定是否失活；从 root set 出发，递归寻找执行栈和全局对象中可达到对象，进行标记（white black gray 三色标记法）
+
+  - whilte 初始状态，表示未被发现；最终残留的 white 会被 sweep
+  - gray 节点 A 被发现，标记为 gray；然后子节点也标记为 gray；然后 A 变为 black，依次递归，直到所有可到达对象都变为 black，开始 sweep
+  - black 标记完毕后保留对象
+
 3. sweeping: dead 对象被收集到 free list 中
 4. compaction: 将存活对象复制到未被压缩的页面中（利用 free-list)；潜在问题：复制代价可能高昂，所以只压缩高度碎片化页面
 
@@ -59,3 +64,5 @@ GC 特性：并行、增量、并发, 主要目的解放主线程
 ### 参考资料
 
 1. [trash-talk](https://v8.dev/blog/trash-talk)
+2. [另一篇](https://dev.to/jennieji/memory-management-in-v8-garbage-collection-and-improvements-18e6)
+3. [v8 gc 发展史](https://www.jayconrod.com/posts/55/a-tour-of-v8--garbage-collection)
